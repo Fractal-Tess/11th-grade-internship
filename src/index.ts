@@ -1,5 +1,4 @@
-import { PredictAllFaceExpressionsWithFaceAlignmentTask } from "../node_modules/face-api.js/build/commonjs/globalApi/PredictFaceExpressionsTask"
-
+//@ts-nocheck
 const video = document.getElementById('video')! as HTMLVideoElement
 
 
