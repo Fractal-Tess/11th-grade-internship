@@ -10,11 +10,12 @@ Promise.all([
 ]).then(startVideo).catch(err => console.error(err))
 
 function startVideo() {
-  navigator.getUserMedia(
-    { video: {} },
-    stream => video.srcObject = stream,
-    err => console.error(err)
-  )
+    let constraints = { video: true, audio: false }
+    navigator.mediaDevices.getUserMedia(
+        constraints)
+        .then(stream => {
+          video.srcObject = stream;
+        }).catch(console.error)
 }
 
 video.addEventListener('play', () => {
