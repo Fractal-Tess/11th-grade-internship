@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}<title>{{title}}</title>{% endblock %}
+{% block title %}
+<title>{{title}}</title>
+<link rel="stylesheet" href="{{url_for('static', filename='style/main.css')}}">
+<script defer src="{{url_for('static', filename='js/face-api.min.js')}}"></script>
+<script defer src="{{url_for('static', filename='js/indexBundle.js')}}"></script>
+{% endblock %}
 
 {% block content %}
-testing
+<video id='video' , width="720" , height="560" autoplay muted></video>
 {% endblock %}
