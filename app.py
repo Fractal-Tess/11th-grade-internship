@@ -21,6 +21,7 @@ def openCV_stream():
 def face_api():
     return render_template("faceapi.html", title="Index")
 
+
 if __name__ == '__main__':
     app.run(debug=True, port=PORT, host=HOST)
     
