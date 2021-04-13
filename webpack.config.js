@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
   devtool: "eval-source-map",
   mode: "production",
-  entry: "./src/index.ts",
+  entry: "./src/faceapi.ts",
   module: {
     rules: [
       {
@@ -17,7 +17,7 @@ module.exports = {
     extensions: [".ts", ".js"],
   },
   output: {
-    filename: "indexBundle.js",
+    filename: "faceapiBundle.js",
     path: path.resolve(__dirname, "static/js/"),
   },
 };
