@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>{{title}}</title>
+<link rel="stylesheet" href="{{url_for('static', filename='style/main.css')}}">
+<script defer src="{{url_for('static', filename='js/face-api.min.js')}}"></script>
+<script defer src="{{url_for('static', filename='js/indexBundle.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+<nav>
+    <div class="logo">
+        <!-- Just a text for now -->
+        <a href="/">Viz</a>
+    </div>
+    <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/opencv-stream">OpenCV stream</a></li>
+        <li><a href="/frontend-face-api">Frontend Face-API</a></li>
+    </ul>
+</nav>
+<p class="message" type=text>Give it a few seconds to load</p>
+<video id='video' , width="720" , height="540" autoplay muted></video>
+{% endblock %}

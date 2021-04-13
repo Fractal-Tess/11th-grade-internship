@@ -6,9 +6,9 @@ app = Flask(__name__)
 PORT = 5000
 HOST = "0.0.0.0"
 
-@app.route('/')
-def index():
-    return render_template("index.html", title="Index")
+@app.route('/frontend-face-api')
+def face_api():
+    return render_template("faceapi.html", title="Index")
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT, host=HOST)

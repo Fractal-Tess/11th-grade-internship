@@ -1,17 +1,89 @@
-* {
-    margin: 0;
-    padding: 0;
+@import './variable';
+@import './resets';
+
+@function weight($weight-name) {
+    @return map-get($font-weights, $weight-name)
 }
 
+
+html,
 body {
-    width: 100vw;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    background: $primary-background-color;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: wheat;
+    width: 100vw;
+}
+
+
+// Face recon api page
+canvas,
+video {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 canvas {
-    position: absolute;
+    z-index: 999;
 }
+
+video {
+    z-index: 998;
+    -webkit-box-shadow: -1px 3px 24px 19px rgba(0, 0, 0, 0.51);
+    -moz-box-shadow: -1px 3px 24px 19px rgba(0, 0, 0, 0.51);
+    box-shadow: -1px 3px 24px 19px rgba(0, 0, 0, 0.51);
+}
+
+.message {
+    text-align: center;
+    padding-top: 2rem;
+    font-size: 2rem;
+}
+
+// end Face recon api page
+
+//Logo + header links
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 8vh;
+    background: $accent-background-color;
+    box-shadow: 0px 0.2rem 1rem rgba(0, 0, 0, 0.397);
+
+    // border-bottom: 3px solid $contrast-color;
+}
+
+.logo a {
+    text-decoration: none;
+    color: $text-color;
+    text-transform: uppercase;
+    letter-spacing: 0.33rem;
+    font-size: 1.7rem;
+    filter: drop-shadow(0 0 1rem $contrast-color);
+}
+
+
+.nav-links {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    width: 65vw;
+
+    li {
+        list-style: none;
+
+        a {
+            font-size: 1.4rem;
+            color: $contrast-color;
+            text-decoration: none;
+            letter-spacing: 0.1rem;
+            font-weight: weight(bold);
+            font-size: 1rem;
+        }
+    }
+}
+
+//End logo + header links
