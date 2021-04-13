@@ -100,4 +100,14 @@ nav {
   font-weight: 700;
   font-size: 1rem;
 }
+
+.welcomeGif {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 70vw;
+  height: auto;
+}
 /*# sourceMappingURL=main.css.map */

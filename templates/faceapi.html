@@ -7,17 +7,6 @@
 {% endblock %}
 
 {% block content %}
-<nav>
-    <div class="logo">
-        <!-- Just a text for now -->
-        <a href="/">Viz</a>
-    </div>
-    <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/opencv-stream">OpenCV stream</a></li>
-        <li><a href="/frontend-face-api">Frontend Face-API</a></li>
-    </ul>
-</nav>
-<p class="message" type=text>Give it a few seconds to load</p>
+<p class="message" type=text>Enable your camera and give it a few seconds to load</p>
 <video id='video' , width="720" , height="540" autoplay muted></video>
 {% endblock %}
