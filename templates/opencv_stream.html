@@ -1,7 +1,7 @@
 {% extends 'base.html'%}
 
 
-{% block title %}
+{% block head %}
 <title>{{title}}</title>
 {% endblock %}
 
@@ -9,6 +9,6 @@
 
 {% block content %}
 
-<p type=text>Testing</p>
+<img src="{{ url_for('video_feed') }}">
 
 {% endblock %}
