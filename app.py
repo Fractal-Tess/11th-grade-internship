@@ -72,9 +72,8 @@ def detect_motion(frameCount):
 
 			faces = face_cascade.detectMultiScale(gray, 1.1, 4)
 			# Draw the rectangle around each face
-			if faces.any():
-				for (x, y, w, h) in faces:
-					cv2.rectangle(face_frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
+			for (x, y, w, h) in faces:
+				cv2.rectangle(face_frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
 
 
 			# acquire the lock, set the output frame, and release the lock
