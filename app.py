@@ -86,6 +86,7 @@ def detect_motion(frameCount):
 		md.update(gray)
 		total += 1
 
+
 def generate(frameObject):
     # grab global references to the output frame and lock variables
 	global lock
