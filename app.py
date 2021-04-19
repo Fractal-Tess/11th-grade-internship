@@ -69,10 +69,10 @@ def detect_motion(frameCount):
 				(thresh, (minX, minY, maxX, maxY)) = motion
 				cv2.rectangle(motion_frame, (minX, minY), (maxX, maxY),
 					(0, 0, 255), 2)
-					
-			# Detect faces
+
 			faces = face_cascade.detectMultiScale(gray, 1.1, 4)
-			if faces:
+			# Draw the rectangle around each face
+			if faces.any():
 				for (x, y, w, h) in faces:
 					cv2.rectangle(face_frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
 
