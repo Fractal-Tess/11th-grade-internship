@@ -7,6 +7,9 @@
 {% endblock %}
 
 {% block content %}
-<p class="message" type=text>Enable your camera and give it a few seconds to load</p>
+<p class="message" type=text>Enable your camera and give it a few seconds to load.
+    <br>
+    If the camera is already claimed by the backend service, you will get a DOMException in the console.
+</p>
 <video id='video' , width="720" , height="540" autoplay muted></video>
 {% endblock %}

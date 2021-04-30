@@ -1,7 +1,6 @@
 import numpy as np
-import imutils
+from imutils import grab_contours
 import cv2
-
 
 class SingleMotionDetector(object):
 	def __init__(self, accumWeight=0.5):
@@ -9,7 +8,10 @@ class SingleMotionDetector(object):
 		self.bg = None
 
 	def update(self, image):
-        	# if the background model is None, initialize it
+		if image is None:
+			return
+
+		# if the background model is None, initialize it
 		if self.bg is None:
 			self.bg = image.copy().astype("float")
 			return
@@ -31,7 +33,7 @@ class SingleMotionDetector(object):
 		# minimum and maximum bounding box regions for motion
 		cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
 		cv2.CHAIN_APPROX_SIMPLE)
-		cnts = imutils.grab_contours(cnts)
+		cnts = grab_contours(cnts)
 		(minX, minY) = (np.inf, np.inf)
 		(maxX, maxY) = (-np.inf, -np.inf)
 

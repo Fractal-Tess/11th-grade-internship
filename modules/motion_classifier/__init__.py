@@ -1,2 +1,2 @@
 from .singlemotiondetector import SingleMotionDetector
-print("Using Single Motion Detection")
+print("Importing Motion Classifier...")
