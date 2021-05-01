@@ -2,6 +2,7 @@ from flask import Flask, render_template, Response
 from modules.detect_motion import MotionDetector
 from modules.frame_loop import FrameLoop
 from modules.detect_general_faces import GenericFaceDetection
+
 from threading import Lock
 
 app = Flask(__name__)
@@ -21,6 +22,7 @@ md.start()
 
 fd = GenericFaceDetection(fl=fl, lock=lock, fps=fps)
 fd.start()
+
 
 
 @app.route("/motion_detection_vs")
