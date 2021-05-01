@@ -1,27 +1,39 @@
+from os.path import commonpath
 from flask import Flask, render_template, Response
 from modules.detect_motion import MotionDetector
 from modules.frame_loop import FrameLoop
 from modules.detect_general_faces import GenericFaceDetection
-
+from modules.detect_specific_faces import FaceRecognition
 from threading import Lock
 
-app = Flask(__name__)
+
 
 #Configs
+app = Flask(__name__)
 PORT = 5000
 HOST = "0.0.0.0"
 lock = Lock()
-fps = 60
+fps = 24
+fr_tolerance = 0.6
+compression = 4
+# Relative path to a sub-folder containing .jpg face file(s) examples
+path = "faces/"
+# TODO: Add "cnn" model classifier (need gpu instancing)
 
-# Start capturing and processing stock frames into normal and greyscale
-fl = FrameLoop(fps=fps, lock=lock)
+# Start capturing and processing stock frames 
+fl = FrameLoop(fps=fps, lock=lock, width=1080, height=1920)
 fl.start()
 
-md = MotionDetector(fl=fl, lock=lock, fps=fps, accumWeight=0.5)
+md = MotionDetector(fl=fl, lock=lock, accumWeight=0.5)
 md.start()
 
-fd = GenericFaceDetection(fl=fl, lock=lock, fps=fps)
-fd.start()
+gfd = GenericFaceDetection(fl=fl, lock=lock)
+gfd.start()
+
+fr = FaceRecognition(fl=fl, lock=lock, face_dir=path, 
+                     tolerance=fr_tolerance, compression=compression,
+                     debugging=True)
+fr.start()
 
 
 
@@ -33,8 +45,14 @@ def motion_detection_vs():
 
 @app.route("/generic_face_detection_vs")
 def generic_face_detection_vs():
-	return Response(fd.encoding_generator(),
+	return Response(gfd.encoding_generator(),
 		mimetype = "multipart/x-mixed-replace; boundary=frame")
+ 
+@app.route("/face_recognition_vs")
+def face_recognition_vs():
+	return Response(fr.encoding_generator(),
+		mimetype = "multipart/x-mixed-replace; boundary=frame")
+ 
 
 # Routes
 @app.route("/")
@@ -51,7 +69,12 @@ def face_detection():
     
 @app.route('/frontend-face-api')
 def face_api():
-    return render_template("faceapi.html", title="Index")
+    return render_template("faceapi.html", title="(Not working)Frontend face-detection")
+
+@app.route('/face-recognition')
+def face_recognition():
+    return render_template("face_recognition.html", title="OpenCV & face_recognition")
+    
 
 
 if __name__ == '__main__':
@@ -59,8 +82,8 @@ if __name__ == '__main__':
 	# start the flask app
 	# app.run(host=args["ip"], port=args["port"], debug=True,
 	# 	threaded=True, use_reloader=False)
-	app.run(host=HOST, port=PORT, debug=True,
-		threaded=True, use_reloader=False)
+	app.run(host=HOST, port=PORT, threaded=True, use_reloader=False)
 
 # release the video stream pointer
-fl.vs.stop()
+with lock:
+	fl.vs.stop()

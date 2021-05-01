@@ -6,15 +6,12 @@ from time import sleep
 
 
 class FrameLoop(object):
-    def __init__(self, fps, lock, width=1080, height=1920):
+    def __init__(self, fps, lock, width=320, height=200):
         self.frame = None
         self.grey_frame = None
-        
         self.fps = fps
-
         self.vs =  VideoStream(src=0, framerate=self.fps,
                               resolution=(height, width))
-        
         self.lock = lock
         
     def loop(self):

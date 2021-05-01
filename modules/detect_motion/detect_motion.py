@@ -5,13 +5,13 @@ from time import sleep
 
 
 class MotionDetector(object):
-    def __init__(self, fl, lock, fps=25, accumWeight=0.5):
+    def __init__(self, fl, lock, fps=None, accumWeight=0.5):
         # Reference to lock > I'm not sure if I am doing this correctly
         self.lock = lock
         # Reference to the FrameLoop object (instance)
         self.fl_ref = fl
         # The target fps
-        self.target_fps = fps
+        self.target_fps = fps if fps else fl.fps
         
         # The current frame of the FrameLoop
         self.frame = None
@@ -51,13 +51,13 @@ class MotionDetector(object):
         while True:
             # Grab the lock
             with self.lock:
-                # Encode the frame into the `encodedImage` variable
-                (flag, self.encodedImage) = imencode(".jpg", self.frame)
+                # Encode the frame into the `encodedFrame` variable
+                (flag, self.encodedFrame) = imencode(".jpg", self.frame)
                 
             # Check if encoding was successful
             if flag:
                 yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + 
-                        bytearray(self.encodedImage) + b'\r\n')
+                        bytearray(self.encodedFrame) + b'\r\n')
                 
             # Else just skip
             else:

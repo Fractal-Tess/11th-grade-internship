@@ -46,8 +46,7 @@ img {
   z-index: 998;
   -webkit-box-shadow: -1px 3px 24px 19px rgba(0, 0, 0, 0.51);
           box-shadow: -1px 3px 24px 19px rgba(0, 0, 0, 0.51);
-  width: 50vw;
-  height: auto;
+  height: 70vh;
 }
 
 .message {

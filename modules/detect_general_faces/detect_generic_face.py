@@ -3,13 +3,13 @@ from cv2 import rectangle, imencode, CascadeClassifier, data
 from time import sleep
 
 class GenericFaceDetection(object):
-    def __init__(self, fl, lock, fps=25):
+    def __init__(self, fl, lock, fps=None):
         # Reference to lock > I'm not sure if I am doing this correctly
         self.lock = lock
         # Reference to the FrameLoop object (instance)
         self.fl_ref = fl
         # The target fps
-        self.target_fps = fps
+        self.target_fps = fps if fps else fl.fps
         
         # The current frame of the FrameLoop
         self.frame = None
