@@ -1,4 +1,4 @@
-To install the packages, use anaconda.
+To install the packages, use anaconda. (mainly for the reason of dlib refusing to be compiled with or without cmake by using pip)
 
 1 > create a new env  
 2 > activate it  
