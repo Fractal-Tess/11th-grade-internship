@@ -5,6 +5,12 @@
     @return map-get($font-weights, $weight-name)
 }
 
+@mixin absoluteCenter {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
 
 html,
 body {
@@ -20,10 +26,7 @@ body {
 canvas,
 img,
 video {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    @include absoluteCenter();
 }
 
 canvas {
@@ -95,10 +98,7 @@ nav {
 //Index page
 
 .welcomeGif {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    @include absoluteCenter();
     width: 70vw;
     height: auto;
 }

@@ -11,7 +11,7 @@ class FaceRecognition:
         self.fl_ref = fl
         # Reference to lock > I'm not sure if I am doing this correctly
         self.lock = lock
-        # The target fps
+        # The time between frames
         self.one_frame = 1/fl.fps
         # Compression on each frame in order to make it go faster
         self.compresion = compression
@@ -20,12 +20,11 @@ class FaceRecognition:
         
         # The current frame of the FrameLoop < Later on encoded and drawn on.
         self.frame = None
+        # The current compressed frame
         self.mini_frame = None
-        # The current frame of the FrameLoop (.jpg encoded)
+        # The current encoded frame by this object (.jpg encoded)
         self.encodedFrame = None
-        # Total number of frames so far
-        self.total_frames = 0
-        
+
         # Was going to use the "cnn" model
         # But opted not to ~ It's insanely slow on the cpu 
         # self.model = "cnn"
@@ -39,38 +38,49 @@ class FaceRecognition:
         self.text_color = (200, 200, 200)
         self.color = (255, 0, 0)
         
-
-        # Kill me now
+        # Kill me now ~ 
         self.can_yield = False
         
     def detect(self):
         while True:
+            # This is optional. I am using it to get a grasp on the compute time required per frame
             start_time = time()
 
             with self.lock:
+                # usually the first frame is none, and this raises an error if we don't check and call .copy().
                 if self.fl_ref.frame is None:
                     sleep(1)
                     continue
                 else:
+                    # Create a local copy of the frame loop's current frame
                     self.frame = self.fl_ref.frame.copy()
-                    # self.frame = cvtColor(self.fl_ref.frame, COLOR_RGB2BGR)
-                    
+            # Create a compressed frame ~ Helps a lot with model detection
             self.mini_frame = resize(self.frame, (0, 0), 
                                  fx=1/self.compresion, fy=1/self.compresion)
+            
+            # Flip the last dimension of the array
+            # Not sure if this is *Needed* ~ it works with or without
+            # However, it does give about 15 - 20% performance uplift.
             self.mini_frame = self.mini_frame[:, :, ::-1]
+            
+            # Perform detection and encoding
             locations =face_locations(self.mini_frame)
             encoding = face_encodings(self.mini_frame, locations)
             
-            
+            # Loop over them
             for face_encoding, (top, right, bottom, left) in zip (encoding, locations):
-                # Revert the locations to their original pos from the compresion
+                # Decompress (in other words: multiply each point by the compression factor)
                 top *= self.compresion
                 right *= self.compresion
                 bottom *= self.compresion
                 left *= self.compresion
                 
+                # Compare the current face encoding with any known face from the faces dir
                 result = compare_faces(self.know_faces, face_encoding, self.tolerance)
                 match = None
+                
+                # Please not that with this method of implamentation, 
+                # only 1 face can be detected at a time
                 if True in result:
                     match = self.known_names[result.index(True)]
                     
@@ -89,6 +99,7 @@ class FaceRecognition:
             # In the encoding generator
             self.can_yield = True
             
+            # This is currently not needed, as we cannot even reach anywhere near the target fps
             time_for_this_iteration = time() - start_time 
             if (time_for_this_iteration < self.one_frame):
                 sleep(self.one_frame - time_for_this_iteration)
@@ -103,7 +114,7 @@ class FaceRecognition:
         while True:
             # Grab the lock
             with self.lock:
-                # Encode the frame into the `encodedFrame` variable
+                # Encode the frame into the `encodedFrame` attribute
                 (flag, self.encodedFrame) = imencode(".jpg", self.frame)
                 
             # Check if encoding was successful
